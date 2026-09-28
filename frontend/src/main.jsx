@@ -9,6 +9,9 @@ import ParseTreeViewer from "./components/ParseTreeViewer";
 /* =========================================================
    SAMPLE PROGRAMS
 ========================================================= */
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  "http://127.0.0.1:5000";
 
 const samples = {
   Shopping: `int price;
@@ -140,9 +143,7 @@ function App() {
     setError("");
 
     try {
-      const response = await fetch(
-        "http://127.0.0.1:5000/api/compile",
-        {
+      const response = await fetch(`${API_URL}/api/compile`, {
           method: "POST",
 
           headers: {
