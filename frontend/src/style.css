@@ -1,0 +1,1232 @@
+/* =========================================================
+   DESIGN TOKENS
+========================================================= */
+
+:root {
+  /* Colors */
+  --bg: #08060f;
+  --bg-deep: #0b0812;
+  --bg-panel: rgba(15, 11, 25, 0.9);
+  --bg-raised: #130d22;
+  --bg-node: #171026;
+
+  --text: #eeeaff;
+  --text-soft: #ded5ed;
+  --text-muted: #aaa1ba;
+  --text-faint: #837a91;
+
+  --border: #2c2144;
+  --border-soft: #21192f;
+  --border-strong: #3b2b5d;
+
+  --accent: #7044c5;
+  --accent-hover: #8052d8;
+  --accent-ring: #8052d8;
+
+  --ok-bg: #10251b;
+  --ok-border: #23573b;
+  --ok-text: #a9efc4;
+
+  --err-bg: #2b1017;
+  --err-border: #672838;
+  --err-text: #ffb6c4;
+
+  --warn-text: #f0d58c;
+
+  /* Fonts */
+  --font-ui: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-code: "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  --t-fast: 0.15s;
+  --t-base: 0.25s;
+  --t-slow: 0.4s;
+
+  font-family: var(--font-ui);
+  color: var(--text);
+  background: var(--bg);
+  color-scheme: dark;
+}
+
+
+/* =========================================================
+   GLOBAL RESET
+========================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+  background: var(--bg);
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+
+  background:
+    radial-gradient(circle at 20% 0%, #24124d 0, transparent 34%),
+    radial-gradient(circle at 90% 20%, #17103a 0, transparent 30%),
+    var(--bg);
+  background-attachment: fixed;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+::selection {
+  background: rgba(128, 82, 216, 0.45);
+  color: #fff;
+}
+
+/* Thin, quiet scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #3b2b5d transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #3b2b5d;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #5a4387;
+  background-clip: content-box;
+}
+
+/* Visible keyboard focus everywhere */
+:focus-visible {
+  outline: 2px solid var(--accent-ring);
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
+   MAIN APP
+========================================================= */
+
+.app {
+  width: min(1450px, 94%);
+  margin: auto;
+  padding: 34px 0 60px;
+  animation: page-in 0.6s var(--ease-out) both;
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 26px;
+}
+
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #a99acb;
+  margin-bottom: 8px;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(32px, 5vw, 52px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+.header p {
+  color: var(--text-muted);
+  margin: 8px 0 0;
+}
+
+
+/* =========================================================
+   BADGES
+========================================================= */
+
+.version,
+.lang,
+.count,
+.badge {
+  border: 1px solid var(--border-strong);
+  background: var(--bg-raised);
+  color: #cfc0ef;
+  border-radius: 999px;
+  padding: 7px 11px;
+  font-size: 12px;
+  white-space: nowrap;
+
+  transition:
+    background var(--t-base) var(--ease-soft),
+    border-color var(--t-base) var(--ease-soft),
+    color var(--t-base) var(--ease-soft);
+}
+
+
+/* =========================================================
+   WORKSPACE
+========================================================= */
+
+.workspace {
+  display: grid;
+  grid-template-columns: 1.45fr 0.8fr;
+  gap: 18px;
+}
+
+
+/* =========================================================
+   PANELS
+========================================================= */
+
+.panel {
+  border: 1px solid var(--border);
+  background: var(--bg-panel);
+  border-radius: 18px;
+  overflow: hidden;
+  margin-top: 18px;
+
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.22);
+
+  transition:
+    border-color var(--t-base) var(--ease-soft),
+    box-shadow var(--t-slow) var(--ease-soft);
+}
+
+.panel:hover {
+  border-color: #382a58;
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.3);
+}
+
+.workspace .panel {
+  margin-top: 0;
+}
+
+.panel-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+
+  padding: 15px 17px;
+  border-bottom: 1px solid var(--border);
+
+  color: var(--text-soft);
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   SAMPLE CONTROLS
+========================================================= */
+
+.sample-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+select {
+  background: var(--bg-raised);
+  color: var(--text-soft);
+
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  padding: 7px;
+
+  outline: none;
+  cursor: pointer;
+
+  transition:
+    border-color var(--t-fast) var(--ease-soft),
+    background var(--t-fast) var(--ease-soft),
+    box-shadow var(--t-base) var(--ease-soft);
+}
+
+select:hover {
+  border-color: #56408a;
+}
+
+select:focus {
+  border-color: #70519a;
+  box-shadow: 0 0 0 3px rgba(112, 81, 154, 0.25);
+}
+
+
+/* =========================================================
+   SOURCE CODE PANEL
+========================================================= */
+
+.source-panel textarea {
+  display: block;
+
+  width: 100%;
+  min-height: 430px;
+
+  resize: vertical;
+
+  border: 0;
+  outline: 0;
+
+  padding: 20px;
+
+  color: #e9e2f4;
+  background: var(--bg-deep);
+
+  font-family: var(--font-code);
+  font-size: 14px;
+  line-height: 1.65;
+
+  tab-size: 2;
+  caret-color: #b79cf2;
+
+  transition: background var(--t-base) var(--ease-soft);
+}
+
+.source-panel textarea:focus {
+  outline: none;
+  background: #0d0915;
+}
+
+
+/* =========================================================
+   COMPILE BUTTON
+========================================================= */
+
+.compile-btn {
+  margin: 14px;
+  padding: 12px 18px;
+
+  border: 0;
+  border-radius: 10px;
+
+  color: #fff;
+  background: var(--accent);
+
+  cursor: pointer;
+  font-weight: 700;
+
+  box-shadow: 0 6px 18px rgba(112, 68, 197, 0.25);
+
+  transition:
+    background var(--t-fast) var(--ease-soft),
+    transform var(--t-fast) var(--ease-out),
+    box-shadow var(--t-base) var(--ease-soft),
+    opacity var(--t-base) var(--ease-soft);
+}
+
+.compile-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(128, 82, 216, 0.35);
+}
+
+.compile-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 3px 10px rgba(112, 68, 197, 0.25);
+}
+
+.compile-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+  transform: none;
+  box-shadow: none;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status {
+  margin: 16px;
+  padding: 13px;
+
+  border-radius: 10px;
+
+  background: var(--ok-bg);
+  border: 1px solid var(--ok-border);
+  color: var(--ok-text);
+
+  font-size: 14px;
+
+  animation: fade-in var(--t-base) var(--ease-out) both;
+
+  transition:
+    background var(--t-base) var(--ease-soft),
+    border-color var(--t-base) var(--ease-soft),
+    color var(--t-base) var(--ease-soft);
+}
+
+.status.error {
+  background: var(--err-bg);
+  border-color: var(--err-border);
+  color: var(--err-text);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+/* =========================================================
+   COMPILER PHASE LIST
+========================================================= */
+
+.phase-list {
+  padding: 0 16px 18px;
+}
+
+.phase {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+
+  padding: 14px 10px;
+
+  border-bottom: 1px solid #241b35;
+  border-radius: 8px;
+
+  color: #777082;
+  font-size: 14px;
+
+  transition:
+    color var(--t-base) var(--ease-soft),
+    background var(--t-base) var(--ease-soft);
+}
+
+.phase-icon {
+  font-weight: 800;
+  width: 18px;
+  flex-shrink: 0;
+}
+
+.phase small {
+  display: block;
+  color: #665d70;
+  margin-top: 3px;
+  transition: color var(--t-base) var(--ease-soft);
+}
+
+.phase.success {
+  color: var(--ok-text);
+}
+
+.phase.failed {
+  color: var(--err-text);
+  background: #281119;
+}
+
+.phase.warning {
+  color: var(--warn-text);
+}
+
+.phase.not-run {
+  color: #777082;
+}
+
+.phase.success small {
+  color: #728d7e;
+}
+
+
+/* =========================================================
+   INLINE RESULTS
+========================================================= */
+
+.inline-result {
+  margin: 14px;
+  padding: 12px;
+
+  border-radius: 9px;
+
+  animation: fade-in var(--t-base) var(--ease-out) both;
+
+  transition:
+    background var(--t-base) var(--ease-soft),
+    color var(--t-base) var(--ease-soft);
+}
+
+.inline-result.ok {
+  background: var(--ok-bg);
+  color: var(--ok-text);
+}
+
+.inline-result.warn {
+  background: var(--err-bg);
+  color: var(--err-text);
+}
+
+.inline-result.neutral {
+  background: #15111d;
+  color: #a59aad;
+}
+
+
+/* =========================================================
+   TABLES
+========================================================= */
+
+.table-wrap,
+.code-list {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 600px;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+th {
+  color: #8f829f;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+td {
+  color: #cfc7da;
+  transition: background var(--t-fast) var(--ease-soft);
+}
+
+tbody tr {
+  transition: background var(--t-fast) var(--ease-soft);
+}
+
+tbody tr:hover {
+  background: rgba(112, 68, 197, 0.07);
+}
+
+
+/* =========================================================
+   CODE
+========================================================= */
+
+.code {
+  font-family: var(--font-code);
+  color: #f0e9ff;
+}
+
+.token {
+  color: #c6b3ec;
+  background: #1a122b;
+
+  border: 1px solid #33234d;
+  border-radius: 6px;
+
+  padding: 4px 7px;
+  font-size: 11px;
+
+  transition:
+    background var(--t-fast) var(--ease-soft),
+    border-color var(--t-fast) var(--ease-soft);
+}
+
+.token:hover {
+  background: #221837;
+  border-color: #4a3470;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty {
+  padding: 50px 20px;
+  text-align: center;
+  color: var(--text-faint);
+}
+
+
+/* =========================================================
+   OLD TREE VIEW SUPPORT
+========================================================= */
+
+.tree-view {
+  padding: 22px;
+  overflow: auto;
+  min-height: 240px;
+  background: var(--bg-deep);
+  font-family: var(--font-code);
+}
+
+.tree-node {
+  position: relative;
+  margin: 0 0 10px 0;
+}
+
+.tree-card {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+
+  padding: 8px 11px;
+
+  border: 1px solid #33234d;
+  background: var(--bg-node);
+  border-radius: 8px;
+
+  transition:
+    border-color var(--t-fast) var(--ease-soft),
+    background var(--t-fast) var(--ease-soft);
+}
+
+.tree-card:hover {
+  border-color: #4a3470;
+  background: #1c132e;
+}
+
+.tree-card b {
+  color: #d8c8fa;
+}
+
+.tree-card span {
+  color: #9ed7c0;
+}
+
+.tree-children {
+  margin-left: 22px;
+  padding-left: 18px;
+  border-left: 1px dashed var(--border-strong);
+}
+
+
+/* =========================================================
+   CODE LIST
+========================================================= */
+
+.code-list {
+  padding: 6px 0;
+}
+
+.code-row {
+  display: grid;
+  grid-template-columns: 55px minmax(350px, 1fr) 150px;
+  align-items: center;
+
+  min-width: 570px;
+  padding: 12px 16px;
+
+  border-bottom: 1px solid var(--border-soft);
+
+  transition: background var(--t-fast) var(--ease-soft);
+}
+
+.code-row:hover {
+  background: rgba(112, 68, 197, 0.06);
+}
+
+.code-row>span {
+  color: #70687b;
+}
+
+.code-row code {
+  font-family: var(--font-code);
+  color: var(--text);
+}
+
+.code-row small {
+  text-transform: uppercase;
+  color: #81778e;
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   DETAILS / OPTIMIZATION
+========================================================= */
+
+.details {
+  padding: 16px;
+}
+
+.opt {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+
+  border: 1px solid #302441;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 9px;
+
+  transition:
+    border-color var(--t-base) var(--ease-soft),
+    background var(--t-base) var(--ease-soft);
+}
+
+.opt:hover {
+  border-color: #46335f;
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.opt b {
+  width: 150px;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.opt code {
+  background: #15111d;
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+.note {
+  margin: 14px;
+  padding: 12px;
+
+  border: 1px solid #302441;
+  border-radius: 9px;
+
+  color: #877d92;
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+  text-align: center;
+  color: #6f667a;
+  margin-top: 24px;
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   INTERACTIVE PARSE TREE
+========================================================= */
+
+.parse-tree-shell {
+  background: #090711;
+}
+
+
+/* =========================================================
+   PARSE TREE TOOLBAR
+========================================================= */
+
+.parse-tree-toolbar {
+  min-height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+
+  padding: 10px 14px;
+
+  border-bottom: 1px solid var(--border);
+  background: #0f0b19;
+}
+
+.tree-legend,
+.tree-controls,
+.parse-tree-help {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+
+/* =========================================================
+   TREE LEGEND
+========================================================= */
+
+.tree-legend span,
+.parse-tree-help span {
+  color: #82768f;
+  font-size: 11px;
+}
+
+.tree-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-node {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border: 1px solid #69528a;
+}
+
+.legend-node.nonterminal {
+  border-radius: 3px;
+  background: #24183a;
+}
+
+.legend-node.terminal {
+  border-radius: 50%;
+  background: #142c25;
+  border-color: #3d806b;
+}
+
+
+/* =========================================================
+   TREE CONTROLS
+========================================================= */
+
+.tree-controls button {
+  min-width: 34px;
+  height: 32px;
+  padding: 0 10px;
+
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+
+  background: var(--bg-node);
+  color: #ddd2ef;
+
+  cursor: pointer;
+  font-weight: 700;
+
+  transition:
+    background var(--t-fast) var(--ease-soft),
+    border-color var(--t-fast) var(--ease-soft),
+    transform var(--t-fast) var(--ease-out);
+}
+
+.tree-controls button:hover {
+  background: #211536;
+  border-color: #604886;
+}
+
+.tree-controls button:active {
+  transform: scale(0.96);
+}
+
+.tree-controls button:focus-visible {
+  outline: 2px solid var(--accent-ring);
+  outline-offset: 2px;
+}
+
+.tree-controls span {
+  min-width: 48px;
+  text-align: center;
+  color: #a99bbb;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* =========================================================
+   PARSE TREE VIEWPORT
+========================================================= */
+
+/*
+ * The React component uses className="parse-tree-viewport".
+ * All scroll/zoom protection lives here.
+ */
+
+.parse-tree-viewport {
+  position: relative;
+
+  width: 100%;
+  height: min(720px, 72vh);
+  min-height: 420px;
+
+  /* The tree must never become a page-like scroll container. */
+  overflow: hidden !important;
+
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    #090711;
+  background-size: 28px 28px;
+
+  cursor: grab;
+
+  /* No scroll chaining out of the viewport. */
+  overscroll-behavior: none !important;
+  overscroll-behavior-x: none !important;
+  overscroll-behavior-y: none !important;
+
+  /* Pointer movement is handled by JS, not native scrolling. */
+  touch-action: none !important;
+
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-overflow-scrolling: auto;
+  -webkit-tap-highlight-color: transparent;
+
+  /* Isolate painting for smoother pan/zoom. */
+  contain: layout paint;
+}
+
+
+/* =========================================================
+   TREE DRAGGING
+========================================================= */
+
+.parse-tree-viewport:active,
+.parse-tree-viewport.is-dragging {
+  cursor: grabbing;
+}
+
+
+/* =========================================================
+   PARSE TREE SVG
+========================================================= */
+
+.parse-tree-svg {
+  display: block;
+  overflow: visible;
+
+  /*
+   * No transition on transform: wheel zoom and drag
+   * must follow the pointer immediately.
+   */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+
+  user-select: none;
+  -webkit-user-select: none;
+
+  shape-rendering: geometricPrecision;
+}
+
+
+/* =========================================================
+   TREE EDGES
+========================================================= */
+
+.tree-edges path {
+  fill: none;
+  stroke: #594a70;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.9;
+
+  /* Edges never interfere with pointer handling. */
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   TREE NODES
+========================================================= */
+
+.tree-svg-node {
+  cursor: pointer;
+}
+
+.tree-svg-node rect {
+  stroke-width: 1.4;
+
+  transition:
+    fill var(--t-base) var(--ease-soft),
+    stroke var(--t-base) var(--ease-soft),
+    filter var(--t-base) var(--ease-soft);
+}
+
+.nonterminal-node rect {
+  fill: #191126;
+  stroke: #594276;
+}
+
+.terminal-node rect {
+  fill: #10221d;
+  stroke: #397361;
+}
+
+
+/* =========================================================
+   NODE HOVER / SELECTED
+========================================================= */
+
+.tree-svg-node:hover rect,
+.tree-svg-node.selected rect {
+  filter: drop-shadow(0 0 7px rgba(145, 105, 205, 0.35));
+  stroke: #a47be0;
+}
+
+.nonterminal-node:hover rect {
+  fill: #20152f;
+}
+
+.terminal-node:hover rect,
+.terminal-node.selected rect {
+  stroke: #75c7a9;
+}
+
+.terminal-node:hover rect {
+  fill: #142b24;
+}
+
+
+/* =========================================================
+   NODE TEXT
+========================================================= */
+
+.tree-node-name {
+  fill: #eee6fb;
+  font-family: var(--font-code);
+  font-size: 12px;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.tree-node-value {
+  fill: #8fd0b5;
+  font-family: var(--font-code);
+  font-size: 9px;
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   PARSE TREE HELP BAR
+========================================================= */
+
+.parse-tree-help {
+  min-height: 40px;
+  padding: 8px 14px;
+  border-top: 1px solid #241b35;
+  background: #0e0a17;
+}
+
+.parse-tree-help span:not(:last-child)::after {
+  content: "\2022";
+  margin-left: 10px;
+  color: #4d405e;
+}
+
+.parse-tree-help .selected-help {
+  color: #bba0e8;
+  transition: color var(--t-base) var(--ease-soft);
+}
+
+
+/* =========================================================
+   MOBILE - TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .source-panel textarea {
+    min-height: 330px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .parse-tree-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .tree-controls {
+    width: 100%;
+  }
+
+  .tree-controls button {
+    flex: 1;
+  }
+
+  .parse-tree-viewport {
+    min-height: 430px;
+    height: 62vh;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .app {
+    width: 96%;
+    padding-top: 20px;
+  }
+
+  .panel-title {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .sample-controls {
+    width: 100%;
+  }
+
+  .sample-controls select {
+    flex: 1;
+  }
+
+  .code-row {
+    grid-template-columns: 42px minmax(270px, 1fr) 110px;
+    min-width: 430px;
+  }
+
+  .tree-view {
+    min-height: 200px;
+  }
+
+  .parse-tree-help {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .parse-tree-help span::after {
+    display: none !important;
+  }
+}
+
+
+/* =========================================================
+   EXTRA SMALL DEVICES
+========================================================= */
+
+@media (max-width: 420px) {
+
+  .app {
+    width: 97%;
+    padding-bottom: 40px;
+  }
+
+  .parse-tree-toolbar {
+    padding: 10px;
+  }
+
+  .tree-controls {
+    gap: 6px;
+  }
+
+  .tree-controls button {
+    min-width: 30px;
+    padding: 0 7px;
+  }
+
+  .parse-tree-viewport {
+    min-height: 380px;
+    height: 58vh;
+  }
+}
+
+
+/* =========================================================
+   TOUCH DEVICES: no sticky hover states
+========================================================= */
+
+@media (hover: none) {
+
+  .panel:hover {
+    border-color: var(--border);
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.22);
+  }
+
+  .compile-btn:hover {
+    transform: none;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
