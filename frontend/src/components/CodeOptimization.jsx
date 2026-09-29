@@ -1,74 +1,62 @@
 import React from "react";
 
+import CodeList from "./CodeList";
+import Empty from "./Empty";
+
 function CodeOptimization({ optimization }) {
   return (
-    <section className="panel optimization-panel">
+    <section className="panel">
 
       <div className="panel-title">
-        <span>Code Optimization</span>
 
-        {optimization && (
-          <span className="count">
-            {optimization.optimization_count || 0} optimizations
-          </span>
-        )}
+        <span>
+          5. Code Optimization
+        </span>
+
+        <span className="count">
+          {optimization?.optimization_count || 0}{" "}
+          optimizations
+        </span>
+
       </div>
 
-      {!optimization ? (
-        <div className="empty">
-          Generate intermediate code to perform optimization.
-        </div>
-      ) : (
+
+      {optimization ? (
+
         <>
 
-          <div className="optimization-summary">
-
-            <div className="optimization-card">
-              <span className="optimization-value">
-                {optimization.optimization_count || 0}
-              </span>
-
-              <span className="optimization-label">
-                Optimizations Applied
-              </span>
-            </div>
-
-          </div>
+          <CodeList
+            items={optimization.instructions}
+          />
 
 
-          <div className="optimization-section">
+          {optimization.optimizations?.length ? (
 
-            <div className="sub-title">
-              Optimized Three Address Code
-            </div>
+            <div className="details">
 
-            <div className="tac-container">
-
-              <div className="tac-header">
-                <span>#</span>
-                <span>Optimized Code</span>
-                <span>Operation</span>
-              </div>
-
-              {optimization.instructions?.map(
-                (instruction) => (
+              {optimization.optimizations.map(
+                (item, index) => (
 
                   <div
-                    className="tac-row"
-                    key={instruction.index}
+                    className="opt"
+                    key={index}
                   >
 
-                    <span className="tac-number">
-                      {instruction.index}
-                    </span>
+                    <b>
+                      {item.type}
+                    </b>
 
-                    <code className="tac-code">
-                      {instruction.code}
+                    <code>
+                      {item.original}
                     </code>
 
-                    <span className="tac-operation">
-                      {instruction.operation}
+                    <span>
+                      →
                     </span>
+
+                    <code>
+                      {item.optimized}
+                    </code>
 
                   </div>
 
@@ -77,59 +65,25 @@ function CodeOptimization({ optimization }) {
 
             </div>
 
-          </div>
+          ) : (
 
-
-          {optimization.optimizations?.length > 0 && (
-
-            <div className="optimization-section">
-
-              <div className="sub-title">
-                Optimization Details
-              </div>
-
-              <div className="optimization-details">
-
-                {optimization.optimizations.map(
-                  (item, index) => (
-
-                    <div
-                      className="optimization-item"
-                      key={index}
-                    >
-
-                      <div className="optimization-type">
-                        {item.type}
-                      </div>
-
-                      <div className="optimization-change">
-
-                        <code>
-                          {item.original}
-                        </code>
-
-                        <span className="arrow">
-                          →
-                        </span>
-
-                        <code>
-                          {item.optimized}
-                        </code>
-
-                      </div>
-
-                    </div>
-
-                  )
-                )}
-
-              </div>
-
+            <div className="inline-result neutral">
+              No optimization required
+              for this input.
             </div>
 
           )}
 
         </>
+
+      ) : (
+
+        <Empty
+          text={
+            "Optimization appears after TAC generation."
+          }
+        />
+
       )}
 
     </section>

@@ -1,84 +1,80 @@
 import React from "react";
 
-function LexicalAnalysis({ tokens }) {
+import Table from "./Table";
+import Empty from "./Empty";
+
+function LexicalAnalysis({ tokens = [] }) {
   return (
-    <section className="panel tokens-panel">
+    <section className="panel">
 
       <div className="panel-title">
+
         <span>
-          Lexical Analysis — Token Table
+          1. Lexical Analysis — Token Stream
         </span>
 
         <span className="count">
           {tokens.length} tokens
         </span>
+
       </div>
 
 
-      {tokens.length === 0 ? (
+      {tokens.length ? (
 
-        <div className="empty">
-          Compile the program to generate tokens.
-        </div>
+        <Table>
+
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Lexeme</th>
+              <th>Token Type</th>
+              <th>Line</th>
+              <th>Column</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {tokens.map((token, index) => (
+              <tr key={index}>
+
+                <td>
+                  {index + 1}
+                </td>
+
+                <td className="code">
+                  {token.lexeme}
+                </td>
+
+                <td>
+                  <span className="token">
+                    {token.token_type}
+                  </span>
+                </td>
+
+                <td>
+                  {token.line}
+                </td>
+
+                <td>
+                  {token.column}
+                </td>
+
+              </tr>
+            ))}
+
+          </tbody>
+
+        </Table>
 
       ) : (
 
-        <div className="table-wrap">
-
-          <table>
-
-            <thead>
-
-              <tr>
-                <th>#</th>
-                <th>Lexeme</th>
-                <th>Token Type</th>
-                <th>Line</th>
-                <th>Column</th>
-              </tr>
-
-            </thead>
-
-
-            <tbody>
-
-              {tokens.map((token, index) => (
-
-                <tr
-                  key={`${token.line}-${token.column}-${index}`}
-                >
-
-                  <td>
-                    {index + 1}
-                  </td>
-
-                  <td className="lexeme">
-                    {token.lexeme}
-                  </td>
-
-                  <td>
-                    <span className="token-type">
-                      {token.token_type}
-                    </span>
-                  </td>
-
-                  <td>
-                    {token.line}
-                  </td>
-
-                  <td>
-                    {token.column}
-                  </td>
-
-                </tr>
-
-              ))}
-
-            </tbody>
-
-          </table>
-
-        </div>
+        <Empty
+          text={
+            "Compile a program to generate the token stream."
+          }
+        />
 
       )}
 
