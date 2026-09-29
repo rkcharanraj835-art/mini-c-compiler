@@ -199,18 +199,17 @@ function App() {
           </div>
 
           <h1>
-            ⚡ Mini C Compiler
+            Mini C Compiler
           </h1>
 
           <p>
-            Six-phase compiler laboratory
-            based on the Assignment-II
-            test cases.
+            Flow of program in the 
+            Six-phases of compiler.
           </p>
         </div>
 
         <span className="version">
-          FINAL • PDF TEST SUITE
+          V1.0
         </span>
 
       </header>
@@ -916,8 +915,7 @@ function App() {
       ================================================= */}
 
       <footer>
-        Mini C Compiler • Assignment-II aligned •
-        Six compiler phases + execution simulation
+        Mini C Compiler • Designed and Developed by <a href="#">VoidLabs</a> • 2026
       </footer>
 
     </main>
